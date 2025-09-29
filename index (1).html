@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="GlucoHeal Sanjivani – Ayurvedic & Unani formula to balance sugar levels naturally. Cash on Delivery & UPI available." />
+  <title>GlucoHeal Sanjivani</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @keyframes fadeIn { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity:1; transform: translateY(0); } }
+    .animate-fadeIn { animation: fadeIn 1s ease forwards; }
+  </style>
+</head>
+
+<body class="bg-[#fdfcf6] text-gray-800 font-sans">
+
+  <!-- Hero / Header -->
+  <section class="relative bg-gradient-to-r from-green-800 to-green-600 text-white py-28 px-6 text-center overflow-hidden">
+    <div class="relative z-10">
+      <div class="inline-block bg-red-500 text-white font-bold px-6 py-2 rounded-full mb-4 animate-pulse shadow-lg">
+        ⚡ Limited Stock – Order Now! ⚡
+      </div>
+      <div id="countdown" class="bg-yellow-400 text-green-900 font-bold inline-block px-4 py-2 rounded-lg mb-6 shadow-md text-lg"></div>
+      <img src="https://uploads.onecompiler.io/43y3y28x6/43y44ujhu/sajjad.jpg" alt="GlucoHeal Sanjivani"
+        class="mx-auto w-700 drop-shadow-2xl rounded-xl border-4 border-white animate-fadeIn" loading="lazy">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4 drop-shadow-lg">GlucoHeal Sanjivani</h1>
+      <p class="text-lg md:text-xl mb-4 drop-shadow-md">Ayurvedic & Unani Formula for Healthy Sugar Levels – 100% Safe & Natural</p>
+      <div class="bg-yellow-100 text-green-900 font-bold text-center py-2 px-4 rounded-lg mb-4 inline-block shadow-md">
+        💰 Cash on Delivery & UPI Available!
+      </div>
+    </div>
+  </section>
+
+  <!-- Checkout / Order Section -->
+  <section id="order" class="py-16 px-6 max-w-4xl mx-auto">
+    <h2 class="text-3xl font-bold text-center mb-8">🛒 Place Your Order</h2>
+
+    <!-- Step 1: Contact -->
+    <div class="mb-6">
+      <label class="block mb-2 font-semibold">📞 Mobile Number</label>
+      <input id="phoneNumber" type="tel" placeholder="10-digit mobile number"
+        class="w-full p-3 border rounded-lg">
+    </div>
+
+    <!-- Step 2: Address -->
+    <div class="mb-6">
+      <input id="fullName" type="text" placeholder="Full Name" class="w-full p-3 border rounded-lg mb-3">
+      <input id="pincode" type="text" placeholder="Pincode" class="w-full p-3 border rounded-lg mb-3">
+      <input id="city" type="text" placeholder="City" class="w-full p-3 border rounded-lg mb-3">
+      <input id="state" type="text" placeholder="State" class="w-full p-3 border rounded-lg mb-3">
+      <input id="house" type="text" placeholder="House / Building / Apartment" class="w-full p-3 border rounded-lg mb-3">
+      <input id="area" type="text" placeholder="Area / Sector / Street / Village" class="w-full p-3 border rounded-lg mb-3">
+      <input id="landmark" type="text" placeholder="Landmark (Optional)" class="w-full p-3 border rounded-lg mb-3">
+    </div>
+
+    <!-- Step 3: Payment Methods -->
+    <div class="text-center">
+      <button onclick="checkout('cod')"
+        class="bg-green-600 text-white font-semibold px-6 py-3 rounded-lg shadow-lg hover:bg-green-700 mb-4 w-full">
+        🚚 Cash on Delivery
+      </button>
+      <button onclick="checkout('upi')"
+        class="bg-yellow-500 text-white font-semibold px-6 py-3 rounded-lg shadow-lg hover:bg-yellow-600 w-full">
+        📲 UPI Payment
+      </button>
+    </div>
+  </section>
+
+  
+
+  <script>
+    // Example cart data; you should dynamically manage this based on user choice
+    let cart = {
+      summary: "1 Bottle – ₹499",
+      total: 499
+    };
+
+    function saveOrderToSheet(order) {
+      fetch("https://script.google.com/macros/s/AKfycbywV--LILIrjwuL6qFe2OMMeJw2SZp27PYvTqkZHa8AZQ8HAloOs4653cAnrcD44MVVdA/exec", {
+        method: "POST",
+        body: JSON.stringify(order)
+      })
+      .then(res => console.log("Order saved:", res))
+      .catch(err => console.error("Failed to save order:", err));
+    }
+
+    function checkout(method) {
+      const phone = document.getElementById("phoneNumber").value.trim();
+      if (!/^[6-9]\d{9}$/.test(phone)) {
+        alert("Enter a valid 10-digit mobile number");
+        return;
+      }
+      const fullName = document.getElementById("fullName").value.trim();
+      const address = `${document.getElementById("house").value.trim()}, ${document.getElementById("area").value.trim()}, ${document.getElementById("city").value.trim()}, ${document.getElementById("state").value.trim()}, ${document.getElementById("pincode").value.trim()}. Landmark: ${document.getElementById("landmark").value.trim()}`;
+
+      // Prepare order object
+      const order = {
+        name: fullName,
+        phone: phone,
+        address: address,
+        payment: method.toUpperCase(),
+        total: cart.total
+      };
+
+      // Save to Google Sheet
+      saveOrderToSheet(order);
+
+      if (method === "cod") {
+        let msg = `✅ Order Confirmed (Cash on Delivery)\n\n📦 ${cart.summary}\n💰 Total: ₹${cart.total}\n👤 Name: ${fullName}\n📞 Phone: ${phone}\n🏠 Address: ${address}`;
+        let url = `https://wa.me/918910344218?text=${encodeURIComponent(msg)}`;
+        window.open(url, "_blank");
+      }
+      else if (method === "upi") {
+        const upiId = "8910344218@ybl";  // your UPI ID
+        // UPI payment link
+        let paymentMsg = `GlucoHeal Sanjivani Order: ${cart.summary} | ₹${cart.total}`;
+        let upiUrl = `upi://pay?pa=${upiId}&pn=GlucoHeal&am=${cart.total}&cu=INR&tn=${encodeURIComponent(paymentMsg)}`;
+        window.location.href = upiUrl;
+
+        // Also send WhatsApp summary (delayed)
+        let waMsg = `📲 UPI Payment Initiated\n\n📦 ${cart.summary}\n💰 Total: ₹${cart.total}\n👤 Name: ${fullName}\n📞 Phone: ${phone}\n🏠 Address: ${address}`;
+        let waUrl = `https://wa.me/918910344218?text=${encodeURIComponent(waMsg)}`;
+        setTimeout(() => window.open(waUrl, "_blank"), 2000);
+      }
+    }
+
+    // Countdown Timer (unchanged)
+    var countDownDate = new Date();
+    countDownDate.setHours(countDownDate.getHours() + 48);
+    setInterval(function() {
+      var now = new Date().getTime();
+      var dist = countDownDate - now;
+      if (dist < 0) {
+        document.getElementById("countdown").innerText = "Limited Stock Over!";
+        return;
+      }
+      var h = Math.floor((dist % (1000*60*60*24)) / (1000*60*60));
+      var m = Math.floor((dist % (1000*60*60)) / (1000*60));
+      var s = Math.floor((dist % (1000*60)) / 1000);
+      document.getElementById("countdown").innerText = `Hurry! Only few bottles left – ${h}h ${m}m ${s}s`;
+    }, 1000);
+  </script>
+</body>
+</html>
+
+<!-- Benefits Section -->
+  <section class="py-16 px-6 max-w-6xl mx-auto">
+    <h2 class="text-3xl font-bold text-center mb-12">Why Choose GlucoHeal Sanjivani?</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 text-center">
+      <div class="p-6 bg-white shadow-lg rounded-xl border border-green-100 hover:scale-105 transform transition">
+        <img src="https://uploads.onecompiler.io/43y3y28x6/43y3wdyrm/shutterstock_656977798.jpg.webp" alt="Herbal" class="w-16 mx-auto mb-4">
+        <h3 class="text-xl font-semibold mb-2">🌿 100% Herbal</h3>
+        <p>Made with Ayurvedic & Unani herbs that naturally support healthy sugar balance.</p>
+      </div>
+      <div class="p-6 bg-white shadow-lg rounded-xl border border-green-100 hover:scale-105 transform transition">
+        <img src="https://uploads.onecompiler.io/43y3y28x6/43y3wdyrm/Unknown-6.jpeg" alt="Safe" class="w-16 mx-auto mb-4">
+        <h3 class="text-xl font-semibold mb-2">🛡️ Safe & No Side Effects</h3>
+        <p>Gentle on the body, safe for long-term use, and free from chemicals.</p>
+      </div>
+      <div class="p-6 bg-white shadow-lg rounded-xl border border-green-100 hover:scale-105 transform transition">
+        <img src="https://uploads.onecompiler.io/43y3y28x6/43y44ujhu/images.jpeg" alt="Energy" class="w-16 mx-auto mb-4">
+        <h3 class="text-xl font-semibold mb-2">⚡ Boosts Energy</h3>
+        <p>Helps reduce fatigue and improve overall vitality for a healthier lifestyle.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="py-16 px-6 max-w-6xl mx-auto bg-green-50 rounded-xl shadow-lg">
+    <h2 class="text-3xl font-bold text-center mb-12">Trusted by Thousands of Customers</h2>
+    <div class="grid md:grid-cols-3 gap-8 text-center">
+      <div class="p-6 bg-white rounded-xl shadow-lg border border-green-100 hover:scale-105 transition">
+        <p class="text-gray-700 mb-4">"My sugar levels are finally under control. Absolutely safe and natural!"</p>
+        <h3 class="text-lg font-semibold">– Ramesh K., Delhi</h3>
+      </div>
+      <div class="p-6 bg-white rounded-xl shadow-lg border border-green-100 hover:scale-105 transition">
+        <p class="text-gray-700 mb-4">"This Ayurvedic formula works wonders. I feel more energetic!"</p>
+        <h3 class="text-lg font-semibold">– Priya S., Mumbai</h3>
+      </div>
+      <div class="p-6 bg-white rounded-xl shadow-lg border border-green-100 hover:scale-105 transition">
+        <p class="text-gray-700 mb-4">"Cash-on-delivery made it easy to try. I trust this product completely!"</p>
+        <h3 class="text-lg font-semibold">– Azam md., kolkata</h3>
+      </div>
+    </div>
+  </section>
+
+ <!-- Guarantee & Terms Section -->
+  <section class="py-16 px-6 max-w-4xl mx-auto bg-green-50 rounded-xl shadow-lg">
+    <h2 class="text-3xl font-bold text-center mb-6">Our Guarantee & Terms</h2>
+    <div class="bg-yellow-100 text-green-900 font-semibold py-4 px-6 rounded-lg mb-6 text-center">
+      💯 100% Money Back Guarantee!  
+      <br>
+      If GlucoHeal Sanjivani doesn’t work after 1 month of proper use, your money will be fully refunded. Terms & Conditions apply.
+    </div>
+    <div class="bg-white p-6 rounded-lg shadow-lg text-gray-700 leading-relaxed">
+      <h3 class="text-xl font-semibold mb-4">Terms & Conditions:</h3>
+      <ul class="list-disc list-inside space-y-2">
+        <li>This product must be used according to the recommended dosage and instructions.</li>
+        <li>Daily exercise is required for effective results.</li>
+        <li>Maintain a proper diet suitable for sugar management while using this product.</li>
+        <li>The money-back guarantee applies only if the product is used consistently for 1 month.</li>
+        <li>Keep receipts and order details for claiming the refund.</li>
+      </ul>
+    </div>
+  </section>
+  
+  
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-gray-300 py-8 text-center">
+    <p>&copy; 2025 GlucoHeal Sanjivani. All Rights Reserved.</p>
+  </footer>
